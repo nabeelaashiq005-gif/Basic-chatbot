@@ -1,0 +1,56 @@
+import re
+import random
+from datetime import datetime
+
+# Commit: Added Pattern Matching, Date/Time, and Random Responses.
+
+def get_response(user_input):
+    user_input = user_input.lower()
+
+    # 1. Greetings with Random Responses
+    if re.search(r'\b(hi|hello|hey|hola)\b', user_input):
+        responses = ["Hello! How can I assist you?", "Hi there! What's on your mind?", "Hey! Hope you're having a great day."]
+        return random.choice(responses)
+
+    # 2. Asking about Well-being
+    elif re.search(r'how (are|going) you', user_input):
+        return "I'm functioning perfectly! Thank you for asking. How are you?"
+
+    # 3. Current Time Enhancement
+    elif "time" in user_input:
+        now = datetime.now().strftime("%H:%M:%S")
+        return f"The current time is {now}."
+
+    # 4. Current Date Enhancement
+    elif "date" in user_input:
+        today = datetime.now().strftime("%B %d, %Y")
+        return f"Today's date is {today}."
+
+    # 5. Purpose/Bot Identity
+    elif "who are you" in user_input or "your name" in user_input:
+        return "I am an AI assistant built for CodeAlpha's Task 4 (Basic Chatbot)."
+
+    # 6. Goodbye
+    elif re.search(r'\b(bye|exit|quit|goodbye)\b', user_input):
+        return "Goodbye! It was nice talking to you."
+
+    # 7. Default Fallback
+    else:
+        return "I'm sorry, I don't have an answer for that yet. Could you try asking about the time or just say 'Hello'?"
+
+def chat():
+    print("--- Professional Rule-Based Chatbot ---")
+    name = input("Chatbot: Before we start, what is your name? \nYou: ")
+    print(f"Chatbot: Nice to meet you, {name}! Type 'bye' to exit.")
+
+    while True:
+        user_query = input(f"{name}: ")
+        
+        response = get_response(user_query)
+        print(f"Chatbot: {response}")
+
+        if any(word in user_query.lower() for word in ["bye", "exit", "quit"]):
+            break
+
+if __name__ == "__main__":
+    chat()
